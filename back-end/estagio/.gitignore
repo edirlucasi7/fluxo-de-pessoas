@@ -4,6 +4,7 @@ bin/
 src/main/resources/public/
 
 ### STS ###
+.attach_pid33676
 .apt_generated
 .classpath
 .factorypath

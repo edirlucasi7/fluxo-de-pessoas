@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,10 +27,16 @@ public class PessoaControllerImpl implements PessoaController{
 	private PessoaService service;
 	
 	@Override
-	@PostMapping
+	@PostMapping("/cadastrar")
 	public ResponseEntity<Pessoa> createPessoa(@RequestBody Pessoa p) throws PessoaException {
-		service.salvarPessoa(p);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+		boolean verificaCreate = service.salvarPessoa(p);
+		
+		if (verificaCreate == true) {
+			return new ResponseEntity<>(HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+		}
+		
 	}
 
 	@Override
@@ -41,16 +48,37 @@ public class PessoaControllerImpl implements PessoaController{
 				ResponseEntity.noContent().build() :
 				ResponseEntity.ok(pessoas);
 	}
+	
+	@Override
+	@GetMapping("/quantidadeVisitantes")
+	public ResponseEntity<String> getPessoaVisitantes() throws PessoaException {
+		String quantidadeVisitantes = service.informarQuantidadeVisitantes();
+		
+		return ResponseEntity.ok(quantidadeVisitantes);
+	}
 
 	@Override
-	@GetMapping("/listar/{papel}")
-	public ResponseEntity<List<Pessoa>> getPessoaVisitante(@PathVariable("papel") Papel papel) throws PessoaException {
-		List<Pessoa> visitantes = service.listarVisitante(papel);
+	@GetMapping("/listar/{papeis}")
+	public ResponseEntity<List<Pessoa>> getPessoaVisitante(@PathVariable("papeis") Papel papeis) throws PessoaException {
+		List<Pessoa> visitantes = service.listarPessoaPorPapel(papeis);
 		
 		return visitantes.isEmpty() ?
 				ResponseEntity.noContent().build() :
 				ResponseEntity.ok(visitantes);
 		
+	}
+
+	@Override
+	@DeleteMapping("/remover/{id}")
+	public ResponseEntity<Pessoa> deletarPessoa(@PathVariable("id") Long id) throws PessoaException {
+		boolean existePessoa = service.removerPorId(id);
+		
+		if (existePessoa == true) {
+			return ResponseEntity.ok().build();
+		
+		}
+		
+		return ResponseEntity.badRequest().build(); 
 	}
 	
 }

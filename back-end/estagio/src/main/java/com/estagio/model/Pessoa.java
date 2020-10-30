@@ -1,11 +1,15 @@
 package com.estagio.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -25,7 +29,7 @@ public class Pessoa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private static int quantidadeMaxVisitantes = 10;
+	private static int quantidadeMaxVisitantes = 2;
 	
 	private String nome;
 	private String cpf; 
@@ -39,8 +43,11 @@ public class Pessoa {
 	@Column(name = "data_saida")
 	private LocalDate dataSaida;
 	
+	@ElementCollection(targetClass = Papel.class, fetch = FetchType.EAGER)
 	@Enumerated(EnumType.STRING)
-	private Papel papel;
+	@CollectionTable(name = "papel")
+	@Column(name = "papel")
+	private List<Papel> papeis;
 	
 	public static int getQuantidadeMaxVisitantes() {
 		return quantidadeMaxVisitantes;
