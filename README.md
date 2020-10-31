@@ -1,6 +1,6 @@
 <h3>Teste Java Estágio JFRN</h3>
 
-- Procurei usar java básico para resolver o problema proposto para uma seleção de estágio da Justiça Federal do Rio Grande do Norte.
+- SpringBoot, JPA, HIbernate, MySql para resolver o problema proposto para uma seleção de estágio da Justiça Federal do Rio Grande do Norte.
 - Utilizei a problemática proposta apenas para estudo.
 - A problemática segue logo abaixo: 
 
