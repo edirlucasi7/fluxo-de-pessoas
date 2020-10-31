@@ -109,5 +109,15 @@ public class PessoaControllerImpl implements PessoaController{
 		}
 		
 	}
+
+
+	@Override
+	@GetMapping("/quantidadePorPapel")
+	public ResponseEntity<String> getPessoasVisitantesFuncionarios() throws PessoaException {
+		String quantidadePessoasPorPapel = service.quantidadePessoaPorPapel();
+		
+		return ResponseEntity.ok(quantidadePessoasPorPapel);
+	
+	}
 	
 }

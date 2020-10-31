@@ -76,7 +76,7 @@ public class PessoaServiceImpl implements PessoaService{
 	@Override
 	public String informarQuantidadeVisitantes() {
 		Integer contVisitantes = rep.findAllPessoasVisitantes();
-		System.out.println(contVisitantes);
+
 		if (contVisitantes == null) {
 			contVisitantes = 0;	
 		}
@@ -122,6 +122,23 @@ public class PessoaServiceImpl implements PessoaService{
 		}
 		
 		return null;
+	}
+
+	@Override
+	public String quantidadePessoaPorPapel() throws PessoaException {
+		Integer quantidadeVisitantes = rep.findAllPessoasVisitantes();
+		Integer quantidadeFuncionarios = rep.findAllPessoasFuncionarios();
+		
+		if (quantidadeVisitantes == null) {
+			quantidadeVisitantes = 0;
+		}
+		
+		if (quantidadeFuncionarios == null) {
+			quantidadeFuncionarios = 0;
+		}
+		
+		return "A quantidade de funcionários é: " + quantidadeFuncionarios + " pessoas." + "\n"
+				+ "A quantidade de visitantes é: " + quantidadeVisitantes + " pessoas.";
 	}
 	
 }

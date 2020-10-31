@@ -15,5 +15,6 @@ public interface PessoaService {
 	boolean removerPorId(Long id) throws PessoaException;
 	Pessoa buscarPessoaNome(String nome) throws PessoaException;
 	Pessoa alterarStatus(String nome) throws PessoaException;
+	String quantidadePessoaPorPapel() throws PessoaException;
 	
 }

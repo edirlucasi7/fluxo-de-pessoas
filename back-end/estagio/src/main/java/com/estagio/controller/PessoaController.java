@@ -19,7 +19,7 @@ public interface PessoaController {
 	ResponseEntity<Pessoa> createPessoa(Pessoa p) throws PessoaException;
 	
 	@ApiOperation(
-			value = "Bisca uma pessoa",
+			value = "Busca uma pessoa",
 			notes = "Este controller é responsável por buscar uma pessoa pelo nome no sistema"
 			)
 	ResponseEntity<Pessoa> getPessoaNome(String nome) throws PessoaException;
@@ -35,6 +35,12 @@ public interface PessoaController {
 			notes = "Este controller é responsável por listar a quantidade de pessoas com o papel viitante"
 			)
 	ResponseEntity<String> getPessoaVisitantes() throws PessoaException;
+	
+	@ApiOperation(
+			value = "Lista as pessoas por papel",
+			notes = "Este controller é responsável por listar a quantidade de pessoas por cada papel existente no sistema"
+			)
+	ResponseEntity<String> getPessoasVisitantesFuncionarios() throws PessoaException;
 	
 	@ApiOperation(
 			value = "Lista as pessoas pelo papel",

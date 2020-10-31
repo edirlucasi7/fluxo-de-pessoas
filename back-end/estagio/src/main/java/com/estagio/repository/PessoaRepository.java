@@ -17,6 +17,9 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long>{
 	@Query(value = "select distinct count(pessoa_id) from papel as pa where pa.papel = 'VISITANTE'", nativeQuery = true)
 	Integer findAllPessoasVisitantes();	
 	
+	@Query(value = "select distinct count(pessoa_id) from papel as pa where pa.papel = 'FUNCIONARIO'", nativeQuery = true)
+	Integer findAllPessoasFuncionarios();	
+	
 	Optional<Pessoa> findByNome(String nome);
 
 }
