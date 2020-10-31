@@ -13,4 +13,7 @@ public interface PessoaService {
 	String informarQuantidadeVisitantes() throws PessoaException;
 	List<Pessoa> listarPessoaPorPapel(Papel papeis) throws PessoaException;
 	boolean removerPorId(Long id) throws PessoaException;
+	Pessoa buscarPessoaNome(String nome) throws PessoaException;
+	Pessoa alterarStatus(String nome) throws PessoaException;
+	
 }

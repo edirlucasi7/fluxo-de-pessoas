@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,6 +38,20 @@ public class PessoaControllerImpl implements PessoaController{
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		}
 		
+	}
+	
+
+	@Override
+	@GetMapping("/buscarPessoa/{primeiroNome}")
+	public ResponseEntity<Pessoa> getPessoaNome(@PathVariable("primeiroNome") String primeiroNome) throws PessoaException {
+		Pessoa pessoaNome = service.buscarPessoaNome(primeiroNome);
+		
+		if (pessoaNome != null) {
+			return ResponseEntity.ok(pessoaNome);
+		} else {
+		
+		return ResponseEntity.notFound().build();
+		}
 	}
 
 	@Override
@@ -79,6 +94,20 @@ public class PessoaControllerImpl implements PessoaController{
 		}
 		
 		return ResponseEntity.badRequest().build(); 
+	}
+
+	@Override
+	@PutMapping("/atualizarStatus/{primeiroNome}")
+	public ResponseEntity<Pessoa> alterarStatusSaida(@PathVariable("primeiroNome") String nome) throws PessoaException {
+		Pessoa pessoaExiste = service.alterarStatus(nome);
+		System.out.println(pessoaExiste);
+		
+		if (pessoaExiste != null) {
+			return ResponseEntity.ok(pessoaExiste);
+		} else {
+			return ResponseEntity.notFound().build();
+		}
+		
 	}
 	
 }

@@ -17,6 +17,12 @@ public interface PessoaController {
 			notes = "Este controller é responsável por cadastrar um visitante/funcionário no sistema"
 			)
 	ResponseEntity<Pessoa> createPessoa(Pessoa p) throws PessoaException;
+	
+	@ApiOperation(
+			value = "Bisca uma pessoa",
+			notes = "Este controller é responsável por buscar uma pessoa pelo nome no sistema"
+			)
+	ResponseEntity<Pessoa> getPessoaNome(String nome) throws PessoaException;
 
 	@ApiOperation(
 			value = "Lista todos as pessoas",
@@ -41,4 +47,10 @@ public interface PessoaController {
 			notes = "Este controller é responsável por remover um visitante/funcionário do sistema"
 			)
 	ResponseEntity<Pessoa> deletarPessoa(Long id) throws PessoaException;
+	
+	@ApiOperation(
+			value = "Alterar status de saida e insere data de saida",
+			notes = "Este controller é responsável por alterar o status de saída de uma pessoa da JFRN juntamente com o horário atual"
+			)
+	ResponseEntity<Pessoa> alterarStatusSaida(String nome) throws PessoaException;
 }

@@ -1,6 +1,6 @@
 package com.estagio.service.impl;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.estagio.exception.PessoaException;
 import com.estagio.model.Pessoa;
 import com.estagio.model.enums.Papel;
+import com.estagio.model.enums.Status;
 import com.estagio.repository.PessoaRepository;
 import com.estagio.service.PessoaService;
 
@@ -21,8 +22,8 @@ public class PessoaServiceImpl implements PessoaService{
 	
 	@Override
 	public boolean salvarPessoa(Pessoa pessoa) throws PessoaException {
-		LocalDate dataEntrada = LocalDate.now();
-		
+		LocalDateTime dataEntrada = LocalDateTime.now();
+				
 		Integer quantidadeVisitantes = rep.findAllPessoasVisitantes();
 		
 		if (quantidadeVisitantes == null) {
@@ -32,21 +33,37 @@ public class PessoaServiceImpl implements PessoaService{
 		if (pessoa.getPapeis().contains(Papel.VISITANTE)) {
 			if (quantidadeVisitantes < Pessoa.getQuantidadeMaxVisitantes()) {
 				pessoa.setDataEntrada(dataEntrada);
-				
+				pessoa.setStatus(Status.ENTROU_NA_JFRN);
+					
 				rep.save(pessoa);
-				
+					
 				return true;
 			} else {
 				return false;
 			}
 		} else {
 			pessoa.setDataEntrada(dataEntrada);
-			
+			pessoa.setStatus(Status.ENTROU_NA_JFRN);
+				
 			rep.save(pessoa);
-			
+				
 			return true;
 		}
 				
+	}
+	
+	@Override
+	public Pessoa buscarPessoaNome(String nome) throws PessoaException {
+		Optional<Pessoa> pessoaOptional = rep.findByNome(nome);
+		
+		if(pessoaOptional.isPresent()) {
+			Pessoa pessoa = pessoaOptional.get();
+			
+			return pessoa;
+		}
+		
+		return null;
+
 	}
 
 	@Override
@@ -87,6 +104,24 @@ public class PessoaServiceImpl implements PessoaService{
 		}
 		
 	}
-	
+
+	@Override
+	public Pessoa alterarStatus(String nome) throws PessoaException {
+		Optional<Pessoa> existePessoa = rep.findByNome(nome);
+		
+		if (existePessoa.isPresent()) {
+			LocalDateTime dataSaida = LocalDateTime.now();
+			Pessoa pessoa = existePessoa.get();
+			
+			pessoa.setStatus(Status.SAIU_DA_JFRN);
+			pessoa.setDataSaida(dataSaida);
+			
+			rep.save(pessoa);
+			
+			return pessoa;
+		}
+		
+		return null;
+	}
 	
 }

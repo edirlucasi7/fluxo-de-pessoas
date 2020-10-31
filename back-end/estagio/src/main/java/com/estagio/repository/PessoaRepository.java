@@ -1,6 +1,7 @@
 package com.estagio.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,5 +16,7 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long>{
 	
 	@Query(value = "select distinct count(pessoa_id) from papel as pa where pa.papel = 'VISITANTE'", nativeQuery = true)
 	Integer findAllPessoasVisitantes();	
+	
+	Optional<Pessoa> findByNome(String nome);
 
 }
