@@ -11,8 +11,9 @@ public interface PessoaService {
 	boolean salvarPessoa(Pessoa pessoa) throws PessoaException; 
 	List<Pessoa> listarPessoas() throws PessoaException;
 	String informarQuantidadeVisitantes() throws PessoaException;
+	Pessoa buscarPorId(Long id) throws PessoaException;
 	List<Pessoa> listarPessoaPorPapel(Papel papeis) throws PessoaException;
-	boolean removerPorId(Long id) throws PessoaException;
+	void removerPorId(Long id) throws PessoaException;
 	Pessoa buscarPessoaNome(String nome) throws PessoaException;
 	Pessoa alterarStatus(String nome) throws PessoaException;
 	String quantidadePessoaPorPapel() throws PessoaException;

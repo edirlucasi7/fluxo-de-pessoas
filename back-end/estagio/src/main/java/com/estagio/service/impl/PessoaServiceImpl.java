@@ -6,7 +6,9 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import com.estagio.exception.ObjectNotFoundException;
 import com.estagio.exception.PessoaException;
 import com.estagio.model.Pessoa;
 import com.estagio.model.enums.Papel;
@@ -22,6 +24,8 @@ public class PessoaServiceImpl implements PessoaService{
 	
 	@Override
 	public boolean salvarPessoa(Pessoa pessoa) throws PessoaException {
+		Assert.isNull(pessoa.getId(), "Não foi possível inserir o registro.");
+		
 		LocalDateTime dataEntrada = LocalDateTime.now();
 				
 		Integer quantidadeVisitantes = rep.findAllPessoasVisitantes();
@@ -92,17 +96,8 @@ public class PessoaServiceImpl implements PessoaService{
 	}
 
 	@Override
-	public boolean removerPorId(Long id) throws PessoaException {
-		Optional<Pessoa> existePessoa = rep.findById(id);
-		
-		if (existePessoa.isPresent()) {
-			rep.deleteById(id);
-			
-			return true;
-		} else {
-			return false;
-		}
-		
+	public void removerPorId(Long id) throws PessoaException {
+		rep.deleteById(id);
 	}
 
 	@Override
@@ -140,5 +135,13 @@ public class PessoaServiceImpl implements PessoaService{
 		return "A quantidade de funcionários é: " + quantidadeFuncionarios + " pessoas." + "\n"
 				+ "A quantidade de visitantes é: " + quantidadeVisitantes + " pessoas.";
 	}
-	
+
+	@Override
+	public Pessoa buscarPorId(Long id) throws PessoaException {
+		
+		Optional<Pessoa> pessoa = rep.findById(id);
+		
+		return (pessoa).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado."));
+	}
+
 }

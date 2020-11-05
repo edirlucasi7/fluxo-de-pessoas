@@ -85,15 +85,10 @@ public class PessoaControllerImpl implements PessoaController{
 
 	@Override
 	@DeleteMapping("/remover/{id}")
-	public ResponseEntity<Pessoa> deletarPessoa(@PathVariable("id") Long id) throws PessoaException {
-		boolean existePessoa = service.removerPorId(id);
+	public ResponseEntity<Pessoa> deletarPessoa(@PathVariable("id") Long id) throws PessoaException{
+		service.removerPorId(id); 
 		
-		if (existePessoa == true) {
-			return ResponseEntity.ok().build();
-		
-		}
-		
-		return ResponseEntity.badRequest().build(); 
+		return ResponseEntity.ok().build();
 	}
 
 	@Override
@@ -118,6 +113,14 @@ public class PessoaControllerImpl implements PessoaController{
 		
 		return ResponseEntity.ok(quantidadePessoasPorPapel);
 	
+	}
+
+	@Override
+	@GetMapping("/listarPessoa/{id}")
+	public ResponseEntity<Pessoa> getPessoaPorId(@PathVariable("id") Long id) throws PessoaException {
+		Pessoa pessoa = service.buscarPorId(id);
+		
+		return ResponseEntity.ok(pessoa);
 	}
 	
 }

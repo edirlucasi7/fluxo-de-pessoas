@@ -23,6 +23,13 @@ public interface PessoaController {
 			notes = "Este controller é responsável por buscar uma pessoa pelo nome no sistema"
 			)
 	ResponseEntity<Pessoa> getPessoaNome(String nome) throws PessoaException;
+	
+
+	@ApiOperation(
+			value = "Busca uma pessoa por id",
+			notes = "Este controller é responsável por buscar uma pessoa pelo id no sistema"
+			)
+	ResponseEntity<Pessoa> getPessoaPorId(Long id) throws PessoaException;
 
 	@ApiOperation(
 			value = "Lista todos as pessoas",
