@@ -75,7 +75,7 @@ public class PessoaServiceImpl implements PessoaService{
 	@Override
 	public List<PessoaDTO> listarPessoas() throws PessoaException {
 		
-		return rep.findAll().stream().map(PessoaDTO::new).collect(Collectors.toList());
+		return rep.findAll().stream().map(PessoaDTO::create).collect(Collectors.toList());
 		 
 	}
 	

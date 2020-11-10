@@ -5,6 +5,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import org.modelmapper.ModelMapper;
+
 import com.estagio.model.Pessoa;
 
 import lombok.Data;
@@ -23,11 +25,9 @@ public class PessoaDTO {
 	private String cpf; 
 	private String email;
 	
-	public PessoaDTO(Pessoa p) {
-		this.id = p.getId();
-		this.nome = p.getNome();
-		this.cpf = p.getCpf();
-		this.email = p.getEmail();
+	public static PessoaDTO create(Pessoa p) {
+		ModelMapper modelMapper = new ModelMapper();
+		return modelMapper.map(p, PessoaDTO.class);
 	}
 	
 }
