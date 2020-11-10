@@ -3,6 +3,7 @@ package com.estagio.service.impl;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,6 +12,7 @@ import org.springframework.util.Assert;
 import com.estagio.exception.ObjectNotFoundException;
 import com.estagio.exception.PessoaException;
 import com.estagio.model.Pessoa;
+import com.estagio.model.dto.PessoaDTO;
 import com.estagio.model.enums.Papel;
 import com.estagio.model.enums.Status;
 import com.estagio.repository.PessoaRepository;
@@ -71,10 +73,10 @@ public class PessoaServiceImpl implements PessoaService{
 	}
 
 	@Override
-	public List<Pessoa> listarPessoas() throws PessoaException {
-		List<Pessoa> pessoas = rep.findAll();
+	public List<PessoaDTO> listarPessoas() throws PessoaException {
 		
-		return pessoas;
+		return rep.findAll().stream().map(PessoaDTO::new).collect(Collectors.toList());
+		 
 	}
 	
 	@Override
@@ -139,9 +141,7 @@ public class PessoaServiceImpl implements PessoaService{
 	@Override
 	public Pessoa buscarPorId(Long id) throws PessoaException {
 		
-		Optional<Pessoa> pessoa = rep.findById(id);
-		
-		return (pessoa).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado."));
+		return rep.findById(id).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado."));
 	}
 
 }

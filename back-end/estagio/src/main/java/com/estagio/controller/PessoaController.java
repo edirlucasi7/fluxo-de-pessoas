@@ -6,6 +6,7 @@ import org.springframework.http.ResponseEntity;
 
 import com.estagio.exception.PessoaException;
 import com.estagio.model.Pessoa;
+import com.estagio.model.dto.PessoaDTO;
 import com.estagio.model.enums.Papel;
 
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +36,7 @@ public interface PessoaController {
 			value = "Lista todos as pessoas",
 			notes = "Este controller é responsável por listar todas as pessoas cadastradas"
 			)
-	ResponseEntity<List<Pessoa>> getPessoa() throws PessoaException;
+	ResponseEntity<List<PessoaDTO>> getPessoa() throws PessoaException;
 	
 	@ApiOperation(
 			value = "Lista as pessoas com papel de visitante",

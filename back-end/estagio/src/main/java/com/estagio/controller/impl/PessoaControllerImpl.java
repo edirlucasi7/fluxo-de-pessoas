@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.estagio.controller.PessoaController;
 import com.estagio.exception.PessoaException;
 import com.estagio.model.Pessoa;
+import com.estagio.model.dto.PessoaDTO;
 import com.estagio.model.enums.Papel;
 import com.estagio.service.PessoaService;
 
@@ -56,8 +57,8 @@ public class PessoaControllerImpl implements PessoaController{
 
 	@Override
 	@GetMapping("/listar")
-	public ResponseEntity<List<Pessoa>> getPessoa() throws PessoaException {
-		List<Pessoa> pessoas = service.listarPessoas();
+	public ResponseEntity<List<PessoaDTO>> getPessoa() throws PessoaException {
+		List<PessoaDTO> pessoas = service.listarPessoas();
 		
 		return pessoas.isEmpty() ?
 				ResponseEntity.noContent().build() :
