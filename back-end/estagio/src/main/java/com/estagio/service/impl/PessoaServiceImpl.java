@@ -24,7 +24,7 @@ public class PessoaServiceImpl implements PessoaService{
 	
 	@Override
 	public boolean salvarPessoa(Pessoa pessoa) throws PessoaException {
-		Assert.isNull(pessoa.getId(), "Não foi possível inserir o registro.");
+		Assert.isNull(pessoa.getId(), "Não foi possível inserir o registro!");
 		
 		LocalDateTime dataEntrada = LocalDateTime.now();
 				
