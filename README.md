@@ -12,6 +12,4 @@ De acordo com as especificações repassadas, você foi convidado a criar um sis
 
 É necessário que o sistema informe a quantidade de pessoas que estão na Justiça Federal, separando-os em total de funcionários e total de visitantes.</h5>
 
-- A solução é a versão web pedida no processo.
-Obs: fiz uma versão usando vetores anteriormente.
 
