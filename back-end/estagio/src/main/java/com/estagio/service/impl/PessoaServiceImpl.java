@@ -29,15 +29,9 @@ public class PessoaServiceImpl implements PessoaService{
 		Assert.isNull(pessoa.getId(), "Não foi possível inserir o registro.");
 		
 		LocalDateTime dataEntrada = LocalDateTime.now();
-				
-		Integer quantidadeVisitantes = rep.findAllPessoasVisitantes();
 		
-		if (quantidadeVisitantes == null) {
-			quantidadeVisitantes = 0;
-		} 
-		
-		if (pessoa.getPapeis().contains(Papel.VISITANTE)) {
-			if (quantidadeVisitantes < Pessoa.getQuantidadeMaxVisitantes()) {
+		if(pessoa.getPapeis().contains(Papel.VISITANTE)) {
+			if (informarQuantidadeVisitantes() < Pessoa.getQuantidadeMaxVisitantes()) {
 				pessoa.setDataEntrada(dataEntrada);
 				pessoa.setStatus(Status.ENTROU_NA_JFRN);
 					
@@ -47,16 +41,16 @@ public class PessoaServiceImpl implements PessoaService{
 			} else {
 				return false;
 			}
-		} else {
-			pessoa.setDataEntrada(dataEntrada);
-			pessoa.setStatus(Status.ENTROU_NA_JFRN);
+		} 
+
+		pessoa.setDataEntrada(dataEntrada);
+		pessoa.setStatus(Status.ENTROU_NA_JFRN);
+			
+		rep.save(pessoa);
+			
+		return true;
 				
-			rep.save(pessoa);
-				
-			return true;
-		}
-				
-	}
+	} 
 	
 	@Override
 	public Pessoa buscarPessoaNome(String nome) throws PessoaException {
@@ -80,14 +74,14 @@ public class PessoaServiceImpl implements PessoaService{
 	}
 	
 	@Override
-	public String informarQuantidadeVisitantes() {
+	public int informarQuantidadeVisitantes() {
 		Integer contVisitantes = rep.findAllPessoasVisitantes();
 
 		if (contVisitantes == null) {
 			contVisitantes = 0;	
 		}
 		
-		return "A quantidade de visitantes é: " + contVisitantes;
+		return contVisitantes;
 	}
 
 	@Override
