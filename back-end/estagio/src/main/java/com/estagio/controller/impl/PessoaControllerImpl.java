@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -124,6 +126,13 @@ public class PessoaControllerImpl implements PessoaController{
 		Pessoa pessoa = service.buscarPorId(id);
 		
 		return ResponseEntity.ok(pessoa);
+	}
+
+	@Override
+	@GetMapping("/infoUser")
+	public UserDetails getPessoaUsuario(@AuthenticationPrincipal UserDetails user) throws PessoaException {
+		
+		return user;
 	}
 	
 }

@@ -3,6 +3,8 @@ package com.estagio.controller;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.estagio.exception.PessoaException;
 import com.estagio.model.Pessoa;
@@ -13,6 +15,11 @@ import io.swagger.annotations.ApiOperation;
 
 public interface PessoaController {
 
+	@ApiOperation(
+			value = "Adiciona uma visitante/funcionario",
+			notes = "Este controller é responsável por cadastrar um visitante/funcionário no sistema"
+			)
+	UserDetails getPessoaUsuario(@AuthenticationPrincipal UserDetails user) throws PessoaException;
 	@ApiOperation(
 			value = "Adiciona uma visitante/funcionario",
 			notes = "Este controller é responsável por cadastrar um visitante/funcionário no sistema"
