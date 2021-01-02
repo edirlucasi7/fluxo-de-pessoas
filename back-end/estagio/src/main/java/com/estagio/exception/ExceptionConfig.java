@@ -32,12 +32,12 @@ public class ExceptionConfig extends ResponseEntityExceptionHandler {
 		return ResponseEntity.badRequest().build();
 	}
 	
-	@ExceptionHandler({
-		AccessDeniedException.class
-	})
-	public ResponseEntity<Object> acessoDenied() {
-		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ExceptionError("acesso negado"));
-	}
+//	@ExceptionHandler({
+//		AccessDeniedException.class
+//	})
+//	public ResponseEntity<Object> acessoDenied() {
+//		return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ExceptionError("acesso negado"));
+//	}
 	
 	@Override
 	protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex,

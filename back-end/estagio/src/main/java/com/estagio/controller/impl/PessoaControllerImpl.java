@@ -33,7 +33,6 @@ public class PessoaControllerImpl implements PessoaController{
 	
 	@Override
 	@PostMapping("/cadastrar")
-	@Secured({ "ROLE_ADMIN" })
 	public ResponseEntity<Pessoa> createPessoa(@RequestBody Pessoa p) throws PessoaException {
 		boolean verificaCreate = service.salvarPessoa(p);
 		
@@ -61,6 +60,7 @@ public class PessoaControllerImpl implements PessoaController{
 
 	@Override
 	@GetMapping("/listar")
+	@Secured({ "ROLE_ADMIN" })
 	public ResponseEntity<List<PessoaDTO>> getPessoa() throws PessoaException {
 		List<PessoaDTO> pessoas = service.listarPessoas();
 		
