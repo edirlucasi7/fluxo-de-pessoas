@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
 
 import com.estagio.exception.ObjectNotFoundException;
 import com.estagio.exception.PessoaException;
@@ -25,69 +24,54 @@ public class PessoaServiceImpl implements PessoaService{
 	private PessoaRepository rep;
 	
 	@Override
-	public boolean salvarPessoa(Pessoa pessoa) throws PessoaException {
-		Assert.isNull(pessoa.getId(), "Não foi possível inserir o registro.");
-		
-		LocalDateTime dataEntrada = LocalDateTime.now();
-		
-		if(pessoa.getPapeis().contains(Papel.VISITANTE)) {
+	public void salvarPessoa(Pessoa pessoa) throws PessoaException {		
+		if (pessoa.getPapeis().contains(Papel.VISITANTE)) {
 			if (informarQuantidadeVisitantes() < Pessoa.getQuantidadeMaxVisitantes()) {
-				pessoa.setDataEntrada(dataEntrada);
+				pessoa.setDataEntrada(dataEHoraAtual());
 				pessoa.setStatus(Status.ENTROU_NA_JFRN);
-					
 				rep.save(pessoa);
-					
-				return true;
-			} else {
-				return false;
 			}
-		} 
-
-		pessoa.setDataEntrada(dataEntrada);
-		pessoa.setStatus(Status.ENTROU_NA_JFRN);
-			
-		rep.save(pessoa);
-			
-		return true;
-				
+		} else {
+			pessoa.setDataEntrada(dataEHoraAtual());
+			pessoa.setStatus(Status.ENTROU_NA_JFRN);
+			rep.save(pessoa);
+		}
 	} 
+
+	@Override
+	public LocalDateTime dataEHoraAtual() throws PessoaException {
+		LocalDateTime dataEntrada = LocalDateTime.now();
+		return dataEntrada;
+	}
 	
 	@Override
 	public Pessoa buscarPessoaNome(String nome) throws PessoaException {
-		Optional<Pessoa> pessoaOptional = rep.findByNome(nome);
-		
+		Optional<Pessoa> pessoaOptional = rep.findByNome(nome);	
 		if(pessoaOptional.isPresent()) {
 			Pessoa pessoa = pessoaOptional.get();
 			
 			return pessoa;
-		}
-		
+		}		
 		return null;
-
 	}
 
 	@Override
-	public List<PessoaDTO> listarPessoas() throws PessoaException {
-		
-		return rep.findAll().stream().map(PessoaDTO::create).collect(Collectors.toList());
-		 
+	public List<PessoaDTO> listarPessoas() throws PessoaException {	
+		return rep.findAll().stream().map(PessoaDTO::create).collect(Collectors.toList());		 
 	}
 	
 	@Override
 	public int informarQuantidadeVisitantes() {
 		Integer contVisitantes = rep.findAllPessoasVisitantes();
-
 		if (contVisitantes == null) {
 			contVisitantes = 0;	
-		}
-		
+		}		
 		return contVisitantes;
 	}
 
 	@Override
 	public List<Pessoa> listarPessoaPorPapel(Papel papeis) throws PessoaException {
-		List<Pessoa> pessoas = rep.findByPapeis(papeis);
-		
+		List<Pessoa> pessoas = rep.findByPapeis(papeis);	
 		return pessoas;
 	}
 
@@ -95,47 +79,37 @@ public class PessoaServiceImpl implements PessoaService{
 	public void removerPorId(Long id) throws PessoaException {
 		rep.deleteById(id);
 	}
-
+	
 	@Override
 	public Pessoa alterarStatus(String nome) throws PessoaException {
-		Optional<Pessoa> existePessoa = rep.findByNome(nome);
-		
+		Optional<Pessoa> existePessoa = rep.findByNome(nome);		
 		if (existePessoa.isPresent()) {
-			LocalDateTime dataSaida = LocalDateTime.now();
-			Pessoa pessoa = existePessoa.get();
-			
+			Pessoa pessoa = existePessoa.get();		
 			pessoa.setStatus(Status.SAIU_DA_JFRN);
-			pessoa.setDataSaida(dataSaida);
-			
-			rep.save(pessoa);
-			
+			pessoa.setDataSaida(dataEHoraAtual());			
+			rep.save(pessoa);			
 			return pessoa;
-		}
-		
+		}		
 		return null;
 	}
 
 	@Override
 	public String quantidadePessoaPorPapel() throws PessoaException {
 		Integer quantidadeVisitantes = rep.findAllPessoasVisitantes();
-		Integer quantidadeFuncionarios = rep.findAllPessoasFuncionarios();
-		
+		Integer quantidadeFuncionarios = rep.findAllPessoasFuncionarios();	
 		if (quantidadeVisitantes == null) {
 			quantidadeVisitantes = 0;
-		}
-		
+		}	
 		if (quantidadeFuncionarios == null) {
 			quantidadeFuncionarios = 0;
-		}
-		
+		}		
 		return "A quantidade de funcionários é: " + quantidadeFuncionarios + " pessoas." + "\n"
 				+ "A quantidade de visitantes é: " + quantidadeVisitantes + " pessoas.";
 	}
 
 	@Override
-	public Pessoa buscarPorId(Long id) throws PessoaException {
-		
+	public Pessoa buscarPorId(Long id) throws PessoaException {	
 		return rep.findById(id).orElseThrow(() -> new ObjectNotFoundException("Carro não encontrado."));
 	}
-
+	
 }

@@ -10,6 +10,7 @@ import com.estagio.exception.PessoaException;
 import com.estagio.model.Pessoa;
 import com.estagio.model.dto.PessoaDTO;
 import com.estagio.model.enums.Papel;
+import com.estagio.security.JwtLoginInput;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -23,6 +24,11 @@ public interface PessoaController {
 	@ApiOperation(
 			value = "Adiciona uma visitante/funcionario",
 			notes = "Este controller é responsável por cadastrar um visitante/funcionário no sistema"
+			)
+	ResponseEntity login(JwtLoginInput login) throws PessoaException;
+	@ApiOperation(
+			value = "Autentica um usuário na api",
+			notes = "Este controler é responsável por fazer o login do usuário na api."
 			)
 	ResponseEntity<Pessoa> createPessoa(Pessoa p) throws PessoaException;
 	

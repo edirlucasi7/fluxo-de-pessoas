@@ -22,10 +22,11 @@ import com.estagio.exception.PessoaException;
 import com.estagio.model.Pessoa;
 import com.estagio.model.dto.PessoaDTO;
 import com.estagio.model.enums.Papel;
+import com.estagio.security.JwtLoginInput;
 import com.estagio.service.PessoaService;
 
 @RestController
-@RequestMapping("api/v1/pessoa")
+@RequestMapping("api/v1")
 public class PessoaControllerImpl implements PessoaController{
 
 	@Autowired
@@ -33,15 +34,10 @@ public class PessoaControllerImpl implements PessoaController{
 	
 	@Override
 	@PostMapping("/cadastrar")
+	@Secured({ "ROLE_ADMIN" })
 	public ResponseEntity<Pessoa> createPessoa(@RequestBody Pessoa p) throws PessoaException {
-		boolean verificaCreate = service.salvarPessoa(p);
-		
-		if (verificaCreate == true) {
-			return new ResponseEntity<>(HttpStatus.CREATED);
-		} else {
-			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-		}
-		
+		service.salvarPessoa(p);
+		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 	
 
@@ -60,7 +56,6 @@ public class PessoaControllerImpl implements PessoaController{
 
 	@Override
 	@GetMapping("/listar")
-	@Secured({ "ROLE_ADMIN" })
 	public ResponseEntity<List<PessoaDTO>> getPessoa() throws PessoaException {
 		List<PessoaDTO> pessoas = service.listarPessoas();
 		
@@ -115,24 +110,27 @@ public class PessoaControllerImpl implements PessoaController{
 	@GetMapping("/quantidadePorPapel")
 	public ResponseEntity<String> getPessoasVisitantesFuncionarios() throws PessoaException {
 		String quantidadePessoasPorPapel = service.quantidadePessoaPorPapel();
-		
 		return ResponseEntity.ok(quantidadePessoasPorPapel);
-	
 	}
 
 	@Override
 	@GetMapping("/listarPessoa/{id}")
 	public ResponseEntity<Pessoa> getPessoaPorId(@PathVariable("id") Long id) throws PessoaException {
 		Pessoa pessoa = service.buscarPorId(id);
-		
 		return ResponseEntity.ok(pessoa);
 	}
 
 	@Override
 	@GetMapping("/infoUser")
 	public UserDetails getPessoaUsuario(@AuthenticationPrincipal UserDetails user) throws PessoaException {
-		
 		return user;
+	}
+
+
+	@Override
+	@PostMapping("/login")
+	public ResponseEntity login(@RequestBody JwtLoginInput login) throws PessoaException {
+		return ResponseEntity.ok().build();
 	}
 	
 }

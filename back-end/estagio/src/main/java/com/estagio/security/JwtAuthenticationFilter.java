@@ -58,7 +58,6 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
 		String jwtToken = JwtUtil.createToken(user);
 
-//		String json = ServletUtil.getJson("token", jwtToken);
 		String json = UserDTO.create(user, jwtToken).toJson();
 		ServletUtil.write(response, HttpStatus.OK, json);
 	}
@@ -69,4 +68,5 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		String json = ServletUtil.getJson("error", "Login incorreto");
 		ServletUtil.write(response, HttpStatus.UNAUTHORIZED, json);
 	}
+	
 }

@@ -1,5 +1,6 @@
 package com.estagio.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.estagio.exception.PessoaException;
@@ -9,7 +10,7 @@ import com.estagio.model.enums.Papel;
 
 public interface PessoaService {
 
-	boolean salvarPessoa(Pessoa pessoa) throws PessoaException; 
+	void salvarPessoa(Pessoa pessoa) throws PessoaException; 
 	List<PessoaDTO> listarPessoas() throws PessoaException;
 	int informarQuantidadeVisitantes() throws PessoaException;
 	Pessoa buscarPorId(Long id) throws PessoaException;
@@ -18,5 +19,6 @@ public interface PessoaService {
 	Pessoa buscarPessoaNome(String nome) throws PessoaException;
 	Pessoa alterarStatus(String nome) throws PessoaException;
 	String quantidadePessoaPorPapel() throws PessoaException;
+	LocalDateTime dataEHoraAtual() throws PessoaException;
 	
 }
