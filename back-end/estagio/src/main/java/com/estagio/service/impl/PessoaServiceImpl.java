@@ -66,6 +66,8 @@ public class PessoaServiceImpl implements PessoaService{
 		if (contVisitantes == null) {
 			contVisitantes = 0;	
 		}		
+		
+		
 		return contVisitantes;
 	}
 

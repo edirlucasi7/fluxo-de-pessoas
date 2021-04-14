@@ -95,7 +95,6 @@ public class PessoaControllerImpl implements PessoaController{
 	@PutMapping("/atualizarStatus/{primeiroNome}")
 	public ResponseEntity<Pessoa> alterarStatusSaida(@PathVariable("primeiroNome") String nome) throws PessoaException {
 		Pessoa pessoaExiste = service.alterarStatus(nome);
-		System.out.println(pessoaExiste);
 		
 		if (pessoaExiste != null) {
 			return ResponseEntity.ok(pessoaExiste);
