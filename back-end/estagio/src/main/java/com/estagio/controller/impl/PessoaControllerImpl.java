@@ -34,9 +34,9 @@ public class PessoaControllerImpl implements PessoaController{
 	@Override
 	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/cadastrar")
-	public String createPessoa(@RequestBody Pessoa p) throws PessoaException {
-		String testeString = service.salva(p);
-		return testeString;
+	public ResponseEntity<Pessoa> createPessoa(@RequestBody Pessoa pessoa) throws PessoaException {
+		service.salva(pessoa);
+		return ResponseEntity.created(null).build();
 	}
 	
 	@Override

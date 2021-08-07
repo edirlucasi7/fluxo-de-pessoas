@@ -9,7 +9,7 @@ import com.estagio.model.enums.Papel;
 
 public interface PessoaService {
 
-	String salva(Pessoa pessoa) throws PessoaException; 
+	void salva(Pessoa pessoa) throws PessoaException; 
 	List<PessoaDTO> listaPessoas() throws PessoaException;
 	int informaQuantidadeVisitantes() throws PessoaException;
 	List<Pessoa> listaPessoas(Papel papeis) throws PessoaException;

@@ -23,17 +23,14 @@ public class PessoaServiceImpl implements PessoaService{
 	private PessoaRepository rep;
 
 	@Override
-	public String salva(Pessoa pessoa) throws PessoaException {	
+	public void salva(Pessoa pessoa) throws PessoaException {	
 		salvaStatus(pessoa);
 		if (pessoa.getPapeis().contains(Papel.VISITANTE) && informaQuantidadeVisitantes() < pessoa.quantidadeMaxVisitantes()) {
 			rep.save(pessoa);
-			return "Usuário salvo com sucesso!";
 		} 
 		if (pessoa.getPapeis().contains(Papel.FUNCIONARIO)) {
 			rep.save(pessoa);
-			return "Usuário salvo com sucesso!";
 		}
-		return "Não foi possível salvar usuário!";
 	} 
 	
 	@Override

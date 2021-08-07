@@ -30,7 +30,7 @@ public interface PessoaController {
 			value = "Autentica um usuário na api",
 			notes = "Este controler é responsável por fazer o login do usuário na api."
 			)
-	String createPessoa(Pessoa pessoa) throws PessoaException;
+	ResponseEntity<Pessoa> createPessoa(Pessoa pessoa) throws PessoaException;
 
 	@ApiOperation(
 			value = "Busca uma pessoa por id",
