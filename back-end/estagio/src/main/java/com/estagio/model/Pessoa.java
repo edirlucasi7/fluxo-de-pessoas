@@ -30,7 +30,7 @@ public class Pessoa {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	private static int quantidadeMaxVisitantes = 2;
+	private static int QTD_MAX_VISITANTES = 5;
 	
 	private String nome;
 	private String cpf; 
@@ -53,8 +53,8 @@ public class Pessoa {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 	
-	public static int getQuantidadeMaxVisitantes() {
-		return quantidadeMaxVisitantes;
+	public int quantidadeMaxVisitantes() {
+		return QTD_MAX_VISITANTES;
 	}
 
 }

@@ -40,7 +40,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Carros")
+                .title("Fluxo de Pessoas")
                 .description("Documentação API dos Fuxos de Pessoas")
                 .license("Apache Licence Version 2.0")
                 .licenseUrl("https://apache.org")

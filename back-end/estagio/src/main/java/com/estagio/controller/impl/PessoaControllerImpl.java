@@ -3,7 +3,6 @@ package com.estagio.controller.impl;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -33,31 +32,24 @@ public class PessoaControllerImpl implements PessoaController{
 	private PessoaService service;
 	
 	@Override
+	@Secured({"ROLE_ADMIN"})
 	@PostMapping("/cadastrar")
-	@Secured({ "ROLE_ADMIN" })
-	public ResponseEntity<Pessoa> createPessoa(@RequestBody Pessoa p) throws PessoaException {
-		service.salvarPessoa(p);
-		return new ResponseEntity<>(HttpStatus.CREATED);
+	public String createPessoa(@RequestBody Pessoa p) throws PessoaException {
+		String testeString = service.salva(p);
+		return testeString;
 	}
 	
-
 	@Override
-	@GetMapping("/buscarPessoa/{primeiroNome}")
-	public ResponseEntity<Pessoa> getPessoaNome(@PathVariable("primeiroNome") String primeiroNome) throws PessoaException {
-		Pessoa pessoaNome = service.buscarPessoaNome(primeiroNome);
-		
-		if (pessoaNome != null) {
-			return ResponseEntity.ok(pessoaNome);
-		} else {
-		
-		return ResponseEntity.notFound().build();
-		}
+	@GetMapping("/listarPessoa/{id}")
+	public ResponseEntity<Pessoa> getPessoa(@PathVariable("id") Long id) throws PessoaException {
+		Pessoa pessoa = service.buscaPessoa(id);
+		return ResponseEntity.ok(pessoa);
 	}
 
 	@Override
 	@GetMapping("/listar")
-	public ResponseEntity<List<PessoaDTO>> getPessoa() throws PessoaException {
-		List<PessoaDTO> pessoas = service.listarPessoas();
+	public ResponseEntity<List<PessoaDTO>> getPessoas() throws PessoaException {
+		List<PessoaDTO> pessoas = service.listaPessoas();
 		
 		return pessoas.isEmpty() ?
 				ResponseEntity.noContent().build() :
@@ -66,58 +58,40 @@ public class PessoaControllerImpl implements PessoaController{
 	
 	@Override
 	@GetMapping("/quantidadeVisitantes")
-	public ResponseEntity<String> getPessoaVisitantes() throws PessoaException {
-		int quantidadeVisitantes = service.informarQuantidadeVisitantes();
-		
+	public ResponseEntity<String> getVisitantes() throws PessoaException {
+		int quantidadeVisitantes = service.informaQuantidadeVisitantes();
 		return ResponseEntity.ok("Quantidade de visitantes:" + quantidadeVisitantes);
 	}
 
 	@Override
 	@GetMapping("/listar/{papeis}")
-	public ResponseEntity<List<Pessoa>> getPessoaVisitante(@PathVariable("papeis") Papel papeis) throws PessoaException {
-		List<Pessoa> visitantes = service.listarPessoaPorPapel(papeis);
-		
-		return visitantes.isEmpty() ?
+	public ResponseEntity<List<Pessoa>> getPessoas(@PathVariable("papeis") Papel papeis) throws PessoaException {
+		List<Pessoa> pessoas = service.listaPessoas(papeis);
+		return pessoas.isEmpty() ?
 				ResponseEntity.noContent().build() :
-				ResponseEntity.ok(visitantes);
-		
+				ResponseEntity.ok(pessoas);
 	}
 
 	@Override
 	@DeleteMapping("/remover/{id}")
-	public ResponseEntity<Pessoa> deletarPessoa(@PathVariable("id") Long id) throws PessoaException{
-		service.removerPorId(id); 
+	public ResponseEntity<Pessoa> deletaPessoa(@PathVariable("id") Long id) throws PessoaException{
+		service.remove(id); 
 		
 		return ResponseEntity.ok().build();
 	}
 
 	@Override
-	@PutMapping("/atualizarStatus/{primeiroNome}")
-	public ResponseEntity<Pessoa> alterarStatusSaida(@PathVariable("primeiroNome") String nome) throws PessoaException {
-		Pessoa pessoaExiste = service.alterarStatus(nome);
-		System.out.println(pessoaExiste);
-		
-		if (pessoaExiste != null) {
-			return ResponseEntity.ok(pessoaExiste);
-		} else {
-			return ResponseEntity.notFound().build();
-		}
-		
+	@PutMapping("/atualizarStatus/{id}")
+	public ResponseEntity<Pessoa> alteraStatusSaida(@PathVariable("id") Long id) throws PessoaException {
+		Pessoa pessoaExiste = service.atualizaStatusSaida(id);
+		return ResponseEntity.ok(pessoaExiste);
 	}
-
 
 	@Override
 	@GetMapping("/quantidadePorPapel")
 	public ResponseEntity<String> getPessoasVisitantesFuncionarios() throws PessoaException {
-		String quantidadePessoasPorPapel = service.quantidadePessoaPorPapel();
+		String quantidadePessoasPorPapel = service.informaTodasPessoaPorPapel();
 		return ResponseEntity.ok(quantidadePessoasPorPapel);
-	}
-
-	@Override
-	@GetMapping("/listarPessoa/{id}")
-	public ResponseEntity<Pessoa> getPessoaPorId(@PathVariable("id") Long id) throws PessoaException {
-		Pessoa pessoa = service.buscarPorId(id);
-		return ResponseEntity.ok(pessoa);
 	}
 
 	@Override
@@ -129,7 +103,7 @@ public class PessoaControllerImpl implements PessoaController{
 
 	@Override
 	@PostMapping("/login")
-	public ResponseEntity login(@RequestBody JwtLoginInput login) throws PessoaException {
+	public ResponseEntity<?> login(@RequestBody JwtLoginInput login) throws PessoaException {
 		return ResponseEntity.ok().build();
 	}
 	

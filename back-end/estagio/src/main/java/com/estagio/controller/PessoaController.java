@@ -25,37 +25,30 @@ public interface PessoaController {
 			value = "Adiciona uma visitante/funcionario",
 			notes = "Este controller é responsável por cadastrar um visitante/funcionário no sistema"
 			)
-	ResponseEntity login(JwtLoginInput login) throws PessoaException;
+	ResponseEntity<?> login(JwtLoginInput login) throws PessoaException;
 	@ApiOperation(
 			value = "Autentica um usuário na api",
 			notes = "Este controler é responsável por fazer o login do usuário na api."
 			)
-	ResponseEntity<Pessoa> createPessoa(Pessoa p) throws PessoaException;
-	
-	@ApiOperation(
-			value = "Busca uma pessoa",
-			notes = "Este controller é responsável por buscar uma pessoa pelo nome no sistema"
-			)
-	ResponseEntity<Pessoa> getPessoaNome(String nome) throws PessoaException;
-	
+	String createPessoa(Pessoa pessoa) throws PessoaException;
 
 	@ApiOperation(
 			value = "Busca uma pessoa por id",
 			notes = "Este controller é responsável por buscar uma pessoa pelo id no sistema"
 			)
-	ResponseEntity<Pessoa> getPessoaPorId(Long id) throws PessoaException;
+	ResponseEntity<Pessoa> getPessoa(Long id) throws PessoaException;
 
 	@ApiOperation(
 			value = "Lista todos as pessoas",
 			notes = "Este controller é responsável por listar todas as pessoas cadastradas"
 			)
-	ResponseEntity<List<PessoaDTO>> getPessoa() throws PessoaException;
+	ResponseEntity<List<PessoaDTO>> getPessoas() throws PessoaException;
 	
 	@ApiOperation(
 			value = "Lista as pessoas com papel de visitante",
 			notes = "Este controller é responsável por listar a quantidade de pessoas com o papel viitante"
 			)
-	ResponseEntity<String> getPessoaVisitantes() throws PessoaException;
+	ResponseEntity<String> getVisitantes() throws PessoaException;
 	
 	@ApiOperation(
 			value = "Lista as pessoas por papel",
@@ -67,17 +60,17 @@ public interface PessoaController {
 			value = "Lista as pessoas pelo papel",
 			notes = "Este controller é responsável por listar as pessoas a partir de seu papel"	
 			)
-	ResponseEntity<List<Pessoa>> getPessoaVisitante(Papel papel) throws PessoaException;
+	ResponseEntity<List<Pessoa>> getPessoas(Papel papel) throws PessoaException;
 	
 	@ApiOperation(
 			value = "Remove uma pessoa",
 			notes = "Este controller é responsável por remover um visitante/funcionário do sistema"
 			)
-	ResponseEntity<Pessoa> deletarPessoa(Long id) throws PessoaException;
+	ResponseEntity<Pessoa> deletaPessoa(Long id) throws PessoaException;
 	
 	@ApiOperation(
 			value = "Alterar status de saida e insere data de saida",
 			notes = "Este controller é responsável por alterar o status de saída de uma pessoa da JFRN juntamente com o horário atual"
 			)
-	ResponseEntity<Pessoa> alterarStatusSaida(String nome) throws PessoaException;
+	ResponseEntity<Pessoa> alteraStatusSaida(Long id) throws PessoaException;
 }
