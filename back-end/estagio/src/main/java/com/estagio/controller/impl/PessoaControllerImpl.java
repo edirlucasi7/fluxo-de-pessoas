@@ -57,7 +57,7 @@ public class PessoaControllerImpl implements PessoaController{
 	}
 	
 	@Override
-	@GetMapping("/quantidadeVisitantes")
+	@GetMapping("/qtdVisitantes")
 	public ResponseEntity<String> getVisitantes() throws PessoaException {
 		int quantidadeVisitantes = service.informaQuantidadeVisitantes();
 		return ResponseEntity.ok("Quantidade de visitantes:" + quantidadeVisitantes);
