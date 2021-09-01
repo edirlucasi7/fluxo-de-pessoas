@@ -1,5 +1,6 @@
 package com.estagio.controller.impl;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class PessoaControllerImpl implements PessoaController{
 	@Autowired
 	private PessoaService service;
 	
-	@Override
+	@Override	
 	@PostMapping("/cadastrar")
 	@Secured({ "ROLE_ADMIN" })
 	public ResponseEntity<Pessoa> createPessoa(@RequestBody Pessoa p) throws PessoaException {
@@ -74,12 +75,16 @@ public class PessoaControllerImpl implements PessoaController{
 
 	@Override
 	@GetMapping("/listar/{papeis}")
-	public ResponseEntity<List<Pessoa>> getPessoaVisitante(@PathVariable("papeis") Papel papeis) throws PessoaException {
-		List<Pessoa> visitantes = service.listarPessoaPorPapel(papeis);
+	public List<Pessoa> getPessoaVisitante(@PathVariable("papeis") Papel papeis) throws PessoaException {
+		List<Pessoa> pessoas = service.listarPessoaPorPapel(papeis);
+		if (pessoas == null) {
+			return Collections.emptyList(); 
+		}
+		return pessoas;
 		
-		return visitantes.isEmpty() ?
-				ResponseEntity.noContent().build() :
-				ResponseEntity.ok(visitantes);
+//		return visitantes.isEmpty() ?
+//				ResponseEntity.noContent().build() :
+//				ResponseEntity.ok(visitantes);
 		
 	}
 
@@ -128,7 +133,7 @@ public class PessoaControllerImpl implements PessoaController{
 
 	@Override
 	@PostMapping("/login")
-	public ResponseEntity login(@RequestBody JwtLoginInput login) throws PessoaException {
+	public ResponseEntity<?> login(@RequestBody JwtLoginInput login) throws PessoaException {
 		return ResponseEntity.ok().build();
 	}
 	

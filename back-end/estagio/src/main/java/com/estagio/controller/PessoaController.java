@@ -67,7 +67,7 @@ public interface PessoaController {
 			value = "Lista as pessoas pelo papel",
 			notes = "Este controller é responsável por listar as pessoas a partir de seu papel"	
 			)
-	ResponseEntity<List<Pessoa>> getPessoaVisitante(Papel papel) throws PessoaException;
+	List<Pessoa> getPessoaVisitante(Papel papel) throws PessoaException;
 	
 	@ApiOperation(
 			value = "Remove uma pessoa",
